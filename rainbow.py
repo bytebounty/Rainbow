@@ -106,8 +106,22 @@ while True:
 						if line[0].isalpha():
 							line = (line[0].swapcase() + line[1:])
 							wordlist.writelines(hash(line) + "|" + line)
-
 			wordlist.close()
+		else:
+			table = open(filename, 'a')
+			if RAM:
+				readFile = open(wordlist, 'r')
+				readFileLines = readFile.readlines()
+			with open(table) as fileobject:
+				if RAM == False:
+					readFileLines = fileobject
+				for line in readFileLines:
+					table.writelines(hash(line) + "|" + line)
+					if line[0].isalpha():
+						line = (line[0].swapcase() + line[1:])
+						table.writelines(hash(line) + "|" + line)
+			table.close()
+
 	elif Input == "2":
 		rainbow = raw_input("Name of file for rainbow table: ")
 		if rainbow == "":
@@ -150,8 +164,6 @@ while True:
 				print("Compared " + str(times) + " hashes.\n")
 		
 		else:
-			
-			###readFileLines
 			found = False
 			with open(rainbow) as fileobject:
 				if RAM == False:
@@ -216,8 +228,43 @@ while True:
 						break
 					else:
 						break
-		
-		
+		else:
+			if RAM:
+				readFile = open(wordlist, 'r')
+				readFileLines = readFile.readlines()
+			with open(wordlist) as fileobject:
+				if RAM == False:
+					readFileLines = fileobject
+				for line in readFileLines:
+					if isFile(HASH) and path.exists(HASH):
+						found = False
+						if RAM:
+							print("Loading hashes...")
+							hashFile = open(HASH, 'r')
+							readHashLines = hashFile.readlines()
+							print("Hashes loaded.\n")
+						with open(HASH) as fileobject:
+							if RAM == False:
+								readHashLines = fileobject
+							for hashes in readHashLines:
+								for line in readFileLines:
+									if hash(line) == hashes.strip():
+										print("KEY FOUND: " + line)
+										found = True
+										break
+								if found == False:
+									print("[!] KEY NOT FOUND [!]\n")
+					else:
+						found = False
+						if hash(line) == HASH:
+							print("KEY FOUND: " + line)
+							found = True
+							break
+				if found == False:
+					print("[!] KEY NOT FOUND [!]\n")
+					break
+				else:
+					break
 
 	elif Input == "4":
 		print("Hash: " + hash( raw_input("Key: ") ) )
