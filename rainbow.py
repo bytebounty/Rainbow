@@ -107,7 +107,7 @@ while True:
 							line = (line[0].swapcase() + line[1:])
 							wordlist.writelines(hash(line) + "|" + line)
 
-		wordlist.close()
+			wordlist.close()
 	elif Input == "2":
 		rainbow = raw_input("Name of file for rainbow table: ")
 		if rainbow == "":
