@@ -65,7 +65,6 @@ else:
 	print(usage)
 	exit()
 
-
 banner = """
 ▄▄▄   ▄▄▄· ▪    ▐ ▄  ▄▄▄▄·	 ▄▄▌ ▐  ▄▌
 ▀▄ █·▐█ ▀█ ██  •█▌▐█ ▐█ ▀█▪▪	 ██· █▌▐█
@@ -102,25 +101,36 @@ while True:
 					if RAM == False:
 						readFileLines = fileobject
 					for line in readFileLines:
-						wordlist.writelines(hash(line) + "|" + line)
-						if line[0].isalpha():
-							line = (line[0].swapcase() + line[1:])
+						try:
 							wordlist.writelines(hash(line) + "|" + line)
-			wordlist.close()
+							"""
+							if line[0].isalpha():
+								line = (line[0].swapcase() + line[1:])
+								wordlist.writelines(hash(line) + "|" + line)
+							"""
+						except:
+							print("Error")
 		else:
 			table = open(filename, 'a')
 			if RAM:
 				readFile = open(wordlist, 'r')
 				readFileLines = readFile.readlines()
-			with open(table) as fileobject:
-				if RAM == False:
-					readFileLines = fileobject
-				for line in readFileLines:
-					table.writelines(hash(line) + "|" + line)
-					if line[0].isalpha():
-						line = (line[0].swapcase() + line[1:])
-						table.writelines(hash(line) + "|" + line)
-			table.close()
+			try:
+				with open(wordlist) as fileobject:
+					if RAM == False:
+						readFileLines = fileobject
+					for line in readFileLines:
+						try:
+							table.writelines(hash(line) + "|" + line)
+							"""
+							if line[0].isalpha():
+								line = (line[0].swapcase() + line[1:])
+								table.writelines(hash(line) + "|" + line)
+							"""
+						except:
+							print("Error")
+			except:
+				print("Error occured during activity")
 
 	elif Input == "2":
 		rainbow = raw_input("Name of file for rainbow table: ")
